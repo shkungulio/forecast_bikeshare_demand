@@ -1,7 +1,7 @@
 ---
 title: |
   \vspace*{\fill}
-  \fontsize{36}{40}\selectfont \textbf {Forecasting Bike Share Demand Using Time Series Analysis}
+  \fontsize{36}{40}\selectfont \textbf {Forecasting Bikeshare Demand Using Time Series Analysis}
 author: |
   \fontsize{24}{28}\selectfont Seif H. Kungulio
 date: |
@@ -13,12 +13,12 @@ output:
     toc: false
     highlight: espresso
     include:
-      #in_header: resources/header.tex
+      in_header: resources/header.tex
 header-includes:
   # Font and color setup
   - \usepackage{xcolor}
-  - \definecolor{brand}{HTML}{000000}
-  - \definecolor{subbrand}{HTML}{212121}
+  - \definecolor{brand}{HTML}{ff4000}
+  - \definecolor{subbrand}{HTML}{143d0d}
   - \usepackage{titlesec}
   - \titleformat{\section}{\Large\bfseries\color{brand}}{\thesection}{1em}{}
   - \titleformat{\subsection}{\large\bfseries\color{subbrand}}{\thesubsection}{0.75em}{}
@@ -41,7 +41,8 @@ options(repos = c(CRAN = "https://cloud.r-project.org"))
 
 #Install the following libraries if required
 # List of required packages
-required_pkgs <- c("tidyverse", "GGally", "skimr", "cluster", "factoextra", "fpc", "mclust", "knitr")
+required_pkgs <- c("tidyverse", "lubridate", "skimr", "janitor", "scales", "glue", 
+                   "fabletools", "feasts", "yardstick", "tsibble", "fable", "knitr") 
 
 # Install and load each package
 for (pkg in required_pkgs) {
@@ -70,3 +71,234 @@ options(dplyr.summarise.inform = FALSE)
 
 # **Business Understanding**
 ## Introduction
+
+
+## Problem Statement
+
+
+## Objectives
+
+
+## Key Stakeholders
+
+
+## Project Scope
+
+
+## Success Criteria
+
+
+
+\newpage
+
+# **Data Understanding**
+## Dataset Overview
+
+
+## Data Loading
+```{r}
+day_raw <- read_csv("resources/data/day.csv")
+glimpse(day_raw)
+```
+
+```{r}
+hour_raw <- read_csv("resources/data/hour.csv")
+glimpse(hour_raw)
+```
+
+```{r}
+skimr::skim(day_raw)
+```
+
+## Data Exploration
+
+
+## Initial Findings
+
+
+## Summary of Insights
+
+
+
+
+\newpage
+
+# **Data Preparation**
+## Data Cleaning
+```{r}
+day_raw %>%
+  summarise(across(everything(), ~ sum(is.na(.)))) %>%
+  pivot_longer(everything(), names_to = "variable", values_to = "missing_count") %>%
+  arrange(desc(missing_count)) %>%
+  kable(caption = "Missing Values i n Day Dataset")
+```
+
+## Feature Engineering
+```{r}
+day <- day_raw %>%
+  mutate(date = as_date(dteday),
+         year = year(date),
+         month = month(date, label = TRUE),
+         weekday = wday(date, label = TRUE),
+         weekend = if_else(weekday %in% c("Sat", "Sun"), 1, 0)) %>%
+  select(date, year, month, weekday, weekend, temp, atemp, hum, windspeed, casual, registered, cnt)
+glimpse(day)
+```
+
+```{r}
+day <- day_raw %>%
+  mutate(
+    dteday = as.Date(dteday),
+    year = ifelse(yr == 0, 2011, 2012),
+    month = month(dteday, label = TRUE),
+    weekday = wday(dteday, label = TRUE),
+    weekend = if_else(weekday %in% c("Sat", "Sun"), 1L, 0L)
+  ) %>%
+  arrange(dteday) %>%
+as_tsibble(index = dteday)
+
+day %>%
+  has_gaps()
+```
+
+```{r}
+summary(day$cnt)
+stopifnot(nrow(day) == 731)  # expected daily records per dataset description
+```
+
+## Data Transformation
+
+
+## Final Dataset Summary
+
+
+## Data Quality Report
+
+
+## Data Dictionary
+
+
+## Summary of Preparation Steps
+
+
+
+
+
+\newpage
+
+# **Modeling**
+## Modeling Approach
+
+
+## Model Development
+
+
+## Model Evaluation
+
+
+## Model Selection
+
+
+## Summary of Modeling Steps
+
+
+
+
+\newpage
+
+# **Evaluation**
+## Results Summary
+
+
+## Business Impact Assessment
+
+
+## Lessons Learned
+
+
+## Recommendations
+
+
+
+
+\newpage
+
+# **Deployment**
+## Deployment Plan
+
+
+## Monitoring and Maintenance Strategy
+
+
+## Future Work Suggestions
+
+
+## Summary of Deployment Steps
+
+
+## Acknowledgments
+
+
+## About the Author
+
+
+## Appendix: Code Listings
+
+
+## Additional Visualizations
+
+
+## Glossary of Terms
+
+
+## Data Sources
+
+
+## Contact Information
+
+
+## Feedback and Questions
+
+
+
+
+\newpage
+
+# **Conclusion**
+## Project Summary
+
+
+## Key Takeaways
+
+
+## Final Thoughts
+
+
+
+
+
+
+\newpage
+&nbsp;
+
+\newpage
+# **References**
+## List of References
+
+
+## Citation Style Used
+
+
+## Additional Reading Materials
+
+
+## Acknowledgment of Sources
+
+
+
+
+
+
+\newpage
+
+# **Appendix**

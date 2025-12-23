@@ -17,8 +17,8 @@ output:
 header-includes:
   # Font and color setup
   - \usepackage{xcolor}
-  - \definecolor{brand}{HTML}{ff4000}
-  - \definecolor{subbrand}{HTML}{143d0d}
+  - \definecolor{brand}{HTML}{0060ff}
+  - \definecolor{subbrand}{HTML}{212121}
   - \usepackage{titlesec}
   - \titleformat{\section}{\Large\bfseries\color{brand}}{\thesection}{1em}{}
   - \titleformat{\subsection}{\large\bfseries\color{subbrand}}{\thesubsection}{0.75em}{}
@@ -241,23 +241,6 @@ stopifnot(nrow(day) == 731)  # expected daily records per dataset description
 
 ## About the Author
 
-
-## Appendix: Code Listings
-
-
-## Additional Visualizations
-
-
-## Glossary of Terms
-
-
-## Data Sources
-
-
-## Contact Information
-
-
-## Feedback and Questions
 
 
 
